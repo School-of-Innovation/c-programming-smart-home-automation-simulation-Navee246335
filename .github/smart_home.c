@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 #define MAX_ROOMS 5  // Maximum number of rooms
 
 // Function prototypes
@@ -8,8 +9,7 @@ void controlLights(int n, int lights[]);
 void readTemperature(int n, int temp[]);
 void detectMotion(int n, int motion[]);
 void securitySystem(int n, int locks[]);
-void analyzeHouseStatus(int n, int lights[], int temp[], int motion[], int locks[]);
-
+void analyzeHouseStatus(int n, int lights[], int temp[], int motion[], int locks());
 
 int main() {
     int numRooms;
@@ -38,7 +38,7 @@ int main() {
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
-        switch (choice) {   
+        switch (choice) {
             case 1:
                 controlLights(numRooms, lights);
                 break;
@@ -138,6 +138,7 @@ void securitySystem(int n, int locks[]) {
     int room;
     printf("Enter room number to lock/unlock (1-%d): ", n);
     scanf("%d", &room);
+
     if (room < 1 || room > n) {
         printf("Invalid room number!\n");
         return;
@@ -146,15 +147,15 @@ void securitySystem(int n, int locks[]) {
     locks[room - 1] = !locks[room - 1];  // Toggle lock state
     printf("Room %d is now %s.\n", room, locks[room - 1] ? "Locked" : "Unlocked");
 }
+
 // Function to analyze and display house status
 void analyzeHouseStatus(int n, int lights[], int temp[], int motion[], int locks[]) {
     printf("\n===== House Status Summary =====\n");
     for (int i = 0; i < n; i++) {
-        printf("Room %d:\n", i + 1);
-        printf("  - Light: %s\n", lights[i] ? "ON" : "OFF");
-        printf("  - Temperature: %d°C\n", temp[i]);
-        printf("  - Motion: %s\n", motion[i] ? "Detected" : "Not Detected");
-        printf("  - Lock: %s\n", locks[i] ? "Locked" : "Unlocked");
+        printf("Room %d: Light %s, Temp %d°C, %s, %s\n", i + 1,
+               lights[i] ? "ON" : "OFF",
+               temp[i],
+               motion[i] ? "Motion Detected" : "No Motion",
+               locks[i] ? "Locked" : "Unlocked");
     }
-    printf("================================\n");
 }
